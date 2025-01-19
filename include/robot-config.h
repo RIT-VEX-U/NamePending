@@ -1,6 +1,7 @@
 #pragma once
 #include "vex.h"
 #include "core.h"
+#include "../core/include/subsystems/odometry/odometry_serial.h"
 
 extern vex::brain brain;
 extern vex::controller con;
@@ -40,7 +41,7 @@ extern vex::digital_out goal_grabber_sol;
 // ================ SUBSYSTEMS ================
 extern PID drive_pid;
 extern PID turn_pid;
-extern OdometryNWheel<3> odom;
+extern OdometrySerial odom;
 
 extern robot_specs_t robot_cfg;
 extern TankDrive drive_sys;

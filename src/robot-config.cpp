@@ -49,6 +49,10 @@ robot_specs_t robot_cfg = {
 
 TankDrive drive_sys(left_drive_motors, right_drive_motors, robot_cfg);
 
+OdometrySerial odom(true, true, {0, 0, 0}, 11, 115200);
+
+
+
 // ================ UTILS ================
 
 /**
@@ -56,6 +60,7 @@ TankDrive drive_sys(left_drive_motors, right_drive_motors, robot_cfg);
  */
 void robot_init()
 {
+    // Pose2d pose{0, 0, 0};
     //imu.startCalibration();
 }
 
@@ -66,5 +71,6 @@ void conveyor_intake(double volts) {
 
 void intake_spin(double volts) {
     intake.spin(vex::directionType::fwd, volts, vex::volt);
+    vex::this_thread::yield();
 
 }
