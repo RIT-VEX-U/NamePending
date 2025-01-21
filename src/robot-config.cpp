@@ -49,7 +49,7 @@ robot_specs_t robot_cfg = {
 
 TankDrive drive_sys(left_drive_motors, right_drive_motors, robot_cfg);
 
-OdometrySerial odom(true, true, {0, 0, 0}, 11, 115200);
+OdometrySerial odom(true, true, pose_t{0, 0, 0}, 11, 115200);
 
 
 
