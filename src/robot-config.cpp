@@ -1,4 +1,5 @@
 #include "robot-config.h"
+#include "inttypes.h"
 
 vex::brain Brain;
 vex::controller con;
@@ -49,7 +50,10 @@ robot_specs_t robot_cfg = {
 
 TankDrive drive_sys(left_drive_motors, right_drive_motors, robot_cfg);
 
-OdometrySerial odom(true, true, pose_t{0, 0, 0}, 9, 115200);
+OdometrySerial odom(true, true, pose_t{0, 0, 0}, pose_t{0, 0, 180}, 9, 115200);
+// vex::inertial imu(vex::PORT18);
+
+
 
 
 
@@ -61,7 +65,14 @@ OdometrySerial odom(true, true, pose_t{0, 0, 0}, 9, 115200);
 void robot_init()
 {
     // Pose2d pose{0, 0, 0};
-    //imu.startCalibration();
+    // imu.startCalibration();
+    // while (imu.isCalibrating()) {
+    //     vexDelay(10);
+    // }
+    // while (true) {
+    //     printf("%" PRIu64 ", %f\n", vexSystemHighResTimeGet(), imu.heading());
+    //     vexDelay(50);
+    // }
 }
 
 void conveyor_intake(double volts) {
