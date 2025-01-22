@@ -43,6 +43,7 @@ extern vex::inertial imu;
 extern PID drive_pid;
 extern PID turn_pid;
 extern OdometrySerial odom;
+extern OdometryTank tankodom;
 
 extern robot_specs_t robot_cfg;
 extern TankDrive drive_sys;

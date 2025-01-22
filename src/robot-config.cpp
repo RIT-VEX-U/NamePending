@@ -41,17 +41,18 @@ PID turn_pid(turn_pid_cfg);
 
 robot_specs_t robot_cfg = {
     .robot_radius = 12,
-    .odom_wheel_diam = 2.125,
-    .odom_gear_ratio = 1.0,
+    .odom_wheel_diam = 2.75,
+    .odom_gear_ratio = 0.75,
 
     .drive_feedback = &drive_pid,
     .turn_feedback = &turn_pid,
 };
 
-TankDrive drive_sys(left_drive_motors, right_drive_motors, robot_cfg);
+TankDrive drive_sys(left_drive_motors,  right_drive_motors, robot_cfg);
 
-OdometrySerial odom(true, true, pose_t{0, 0, 0}, pose_t{0, 0, 180}, 9, 115200);
-// vex::inertial imu(vex::PORT18);
+OdometrySerial odom(true, true, pose_t{0, 0, 0}, pose_t{-3.83, 0.2647, 180}, 9, 115200);
+OdometryTank tankodom{left_drive_motors, right_drive_motors, robot_cfg, &imu};
+vex::inertial imu(vex::PORT18);
 
 
 
@@ -64,18 +65,18 @@ OdometrySerial odom(true, true, pose_t{0, 0, 0}, pose_t{0, 0, 180}, 9, 115200);
  */
 void robot_init()
 {
-    // Pose2d pose{0, 0, 0};
-    // imu.startCalibration();
-    // while (imu.isCalibrating()) {
-    //     vexDelay(10);
-    // }
-    // while (true) {
-    //     printf("%" PRIu64 ", %f\n", vexSystemHighResTimeGet(), imu.heading());
-    //     vexDelay(50);
-    // }
-    double i = 1234123.123123;
-    float fl = (float) i;
-    printf("%f, %f\n", i, fl);
+    
+    while (imu.isCalibrating()) {
+        vexDelay(10);
+    }
+    tankodom.set_position({0, 0, 0});
+
+    while (true) {
+        Pose2d pose = odom.get_pose2d();
+        pose_t posetank = tankodom.get_position();
+        printf("%" PRIu64 ", %f, %f, %f, %f, %f, %f\n", vexSystemHighResTimeGet(), pose.translation().x(), pose.translation().y(), pose.rotation().wrapped_degrees_360(), posetank.x, posetank.y, posetank.rot);
+        vexDelay(100);
+    }
 }
 
 void conveyor_intake(double volts) {

@@ -56,9 +56,9 @@ void OdometrySerial::send_config(const pose_t &initial_pose, const pose_t &senso
     float initialy = (float)initial_pose.y;
     float initialrot = (float)initial_pose.rot;
 
-    float offsetx = (float)initial_pose.x;
-    float offsety = (float)initial_pose.y;
-    float offsetrot = (float)initial_pose.rot;
+    float offsetx = (float)sensor_offset.x;
+    float offsety = (float)sensor_offset.y;
+    float offsetrot = (float)sensor_offset.rot;
 
     memcpy(&raw[0], &initialx, sizeof(float));
     memcpy(&raw[4], &initialy, sizeof(float));
@@ -71,9 +71,6 @@ void OdometrySerial::send_config(const pose_t &initial_pose, const pose_t &senso
     cobs_encode(raw, sizeof(raw), cobs_encoded);
 
     vexGenericSerialTransmit(_port, cobs_encoded, sizeof(cobs_encoded));
-    printf("encoded %f %f %f\n", initialx, initialy, offsetrot);
-
-    // vexDelay(100);
 }
 
 int OdometrySerial::receive_cobs_packet(uint32_t port, uint8_t *buffer, size_t buffer_size) {
@@ -179,8 +176,6 @@ pose_t OdometrySerial::update() {
             this->ang_speed_deg = ang_speed_local;
             this->ang_accel_deg = ang_accel_local;
         }
-
-        std::cout << vexSystemHighResTimeGet() << ", " << pose.rotation().wrapped_degrees_360() << std::endl;
 
         return {pose.x(), pose.y(), pose.rotation().wrapped_degrees_180()};
     }
