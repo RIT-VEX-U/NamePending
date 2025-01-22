@@ -73,6 +73,9 @@ void robot_init()
     //     printf("%" PRIu64 ", %f\n", vexSystemHighResTimeGet(), imu.heading());
     //     vexDelay(50);
     // }
+    double i = 1234123.123123;
+    float fl = (float) i;
+    printf("%f, %f\n", i, fl);
 }
 
 void conveyor_intake(double volts) {
