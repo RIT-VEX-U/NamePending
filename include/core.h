@@ -30,6 +30,12 @@
 #include "../core/include/utils/controls/take_back_half.h"
 #include "../core/include/utils/controls/trapezoid_profile.h"
 
+#include "../core/include/utils/math/geometry/pose2d.h"
+#include "../core/include/utils/math/geometry/rotation2d.h"
+#include "../core/include/utils/math/geometry/transform2d.h"
+#include "../core/include/utils/math/geometry/translation2d.h"
+#include "../core/include/utils/math/geometry/twist2d.h"
+
 #include "../core/include/utils/auto_chooser.h"
 #include "../core/include/utils/generic_auto.h"
 #include "../core/include/utils/geometry.h"

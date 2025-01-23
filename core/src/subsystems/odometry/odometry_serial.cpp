@@ -38,7 +38,7 @@ OdometrySerial::OdometrySerial(
   int32_t baudrate
 )
     : OdometryBase(is_async), calc_vel_acc_on_brain(calc_vel_acc_on_brain), pose(Pose2d(0, 0, 0)),
-      pose_offset(Transform2d(0, 0, 0)), _port(port) {
+      pose_offset(Pose2d(0, 0, 0)), _port(port) {
     vexGenericSerialEnable(_port, 0);
     vexGenericSerialBaudrate(_port, baudrate);
     send_config(initial_pose, sensor_offset, calc_vel_acc_on_brain);
@@ -195,7 +195,7 @@ pose_t OdometrySerial::update() {
  * @param new_pose the pose to set the odometry to
  */
 void OdometrySerial::set_position(const Pose2d &new_pose) {
-    pose_offset = Transform2d(new_pose, pose);
+    pose_offset = new_pose;
 }
 
 /**
@@ -214,7 +214,7 @@ pose_t OdometrySerial::get_position(void) {
  * @return the position that the odometry believes the robot is at
  */
 Pose2d OdometrySerial::get_pose2d(void) {
-    return pose + pose_offset;
+    return pose.relative_to(pose_offset);
 }
 
 /** COBS encode data to buffer
